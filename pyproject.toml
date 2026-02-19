@@ -41,7 +41,9 @@ dependencies = [
     "python-socks[asyncio]>=2.4.0",
     "prompt-toolkit>=3.0.0",
     "mcp>=1.0.0",
+    "mcp>=1.0.0",
     "json-repair>=0.30.0",
+    "ollama>=0.1.0",
 ]
 
 [project.optional-dependencies]
@@ -50,6 +52,7 @@ dev = [
     "pytest-asyncio>=0.21.0",
     "ruff>=0.1.0",
 ]
+
 
 [project.scripts]
 nanobot = "nanobot.cli.commands:app"

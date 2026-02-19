@@ -1,5 +1,6 @@
 """Configuration schema using Pydantic."""
 
+from typing import Any
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
 from pydantic.alias_generators import to_camel
@@ -203,6 +204,13 @@ class ProviderConfig(Base):
     extra_headers: dict[str, str] | None = None  # Custom headers (e.g. APP-Code for AiHubMix)
 
 
+
+class OllamaConfig(ProviderConfig):
+    """Ollama provider configuration."""
+    
+    options: dict[str, Any] = Field(default_factory=dict)
+
+
 class ProvidersConfig(Base):
     """Configuration for LLM providers."""
 
@@ -222,6 +230,7 @@ class ProvidersConfig(Base):
     siliconflow: ProviderConfig = Field(default_factory=ProviderConfig)  # SiliconFlow (硅基流动) API gateway
     openai_codex: ProviderConfig = Field(default_factory=ProviderConfig)  # OpenAI Codex (OAuth)
     github_copilot: ProviderConfig = Field(default_factory=ProviderConfig)  # Github Copilot (OAuth)
+    ollama: OllamaConfig = Field(default_factory=OllamaConfig)
 
 
 class GatewayConfig(Base):

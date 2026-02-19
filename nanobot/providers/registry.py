@@ -353,6 +353,25 @@ PROVIDERS: tuple[ProviderSpec, ...] = (
         model_overrides=(),
     ),
 
+    # Ollama: uses official `ollama` lib (direct provider), no LiteLLM.
+    ProviderSpec(
+        name="ollama",
+        keywords=("ollama", "llama", "mistral", "gemma"),
+        env_key="",                         # Direct use, no env var for LiteLLM
+        display_name="Ollama",
+        litellm_prefix="",
+        skip_prefixes=(),
+        env_extras=(),
+        is_gateway=False,
+        is_local=True,
+        detect_by_key_prefix="",
+        detect_by_base_keyword="",
+        default_api_base="http://localhost:11434",
+        strip_model_prefix=False,
+        model_overrides=(),
+        is_direct=True,                     # Bypass LiteLLM
+    ),
+
     # === Auxiliary (not a primary LLM provider) ============================
 
     # Groq: mainly used for Whisper voice transcription, also usable for LLM.

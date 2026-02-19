@@ -284,6 +284,7 @@ def _make_provider(config: Config):
     from nanobot.providers.litellm_provider import LiteLLMProvider
     from nanobot.providers.openai_codex_provider import OpenAICodexProvider
     from nanobot.providers.custom_provider import CustomProvider
+    from nanobot.providers.ollama_provider import OllamaProvider
 
     model = config.agents.defaults.model
     provider_name = config.get_provider_name(model)
@@ -299,6 +300,14 @@ def _make_provider(config: Config):
             api_key=p.api_key if p else "no-key",
             api_base=config.get_api_base(model) or "http://localhost:8000/v1",
             default_model=model,
+        )
+
+    # Ollama: native provider
+    if provider_name == "ollama":
+        return OllamaProvider(
+            api_base=config.get_api_base(model) or "http://localhost:11434",
+            default_model=model,
+            options=config.providers.ollama.options,
         )
 
     from nanobot.providers.registry import find_by_name
