@@ -195,6 +195,10 @@ class AgentLoop:
                 max_tokens=self.max_tokens,
             )
 
+            total = response.usage.get("total_tokens", 0) if response.usage else 0
+            usage_fmt = f"{total/1_000_000:.1f}m" if total >= 1e6 else (f"{total/1_000:.1f}k" if total >= 1e3 else str(total))
+            logger.info(f"Iteration {iteration}/{self.max_iterations} | Usage: {usage_fmt}")
+
             if response.has_tool_calls:
                 if on_progress:
                     clean = self._strip_think(response.content)
