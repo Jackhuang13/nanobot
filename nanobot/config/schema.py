@@ -243,14 +243,33 @@ class GatewayConfig(Base):
 class WebSearchConfig(Base):
     """Web search tool configuration."""
 
+    enabled: bool = True
+    provider: str = "brave"  # "brave" or "ollama"
     api_key: str = ""  # Brave Search API key
     max_results: int = 5
+    # Ollama specific
+    api_base: str = "https://ollama.com"
+    model: str = "llama3"
+    options: dict[str, Any] = Field(default_factory=dict)
+
+
+class WebFetchConfig(Base):
+    """Web fetch tool configuration."""
+
+    enabled: bool = True
+    provider: str = "readability"  # "readability" or "ollama"
+    api_key: str = ""
+    # Ollama specific
+    api_base: str = "https://ollama.com"
+    model: str = "llama3"
+    options: dict[str, Any] = Field(default_factory=dict)
 
 
 class WebToolsConfig(Base):
     """Web tools configuration."""
 
     search: WebSearchConfig = Field(default_factory=WebSearchConfig)
+    fetch: WebFetchConfig = Field(default_factory=WebFetchConfig)
 
 
 class ExecToolConfig(Base):

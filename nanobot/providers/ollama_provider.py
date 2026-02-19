@@ -4,6 +4,7 @@ from typing import Any
 
 import ollama
 
+from loguru import logger
 from nanobot.providers.base import LLMProvider, LLMResponse, ToolCallRequest
 
 
@@ -83,6 +84,9 @@ class OllamaProvider(LLMProvider):
                         new_tool_calls.append(tc)
                 new_msg["tool_calls"] = new_tool_calls
             
+            if new_msg.get("role") == "tool":
+                new_msg.pop("name", None)
+
             ollama_messages.append(new_msg)
 
         kwargs: dict[str, Any] = {
@@ -102,6 +106,15 @@ class OllamaProvider(LLMProvider):
             return self._parse_response(response)
             
         except Exception as e:
+            import json
+            # Log the full payload for debugging
+            logger.error(f"Ollama payload error: {str(e)}")
+            try:
+                # Redact potential sensitive info if needed, but for now dump as is for debugging
+                logger.debug(f"Ollama payload: {json.dumps(kwargs, default=str)}")
+            except:
+                pass
+                
             return LLMResponse(
                 content=f"Error calling Ollama: {str(e)}",
                 finish_reason="error",
