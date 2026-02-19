@@ -371,7 +371,6 @@ def gateway(
         max_tokens=config.agents.defaults.max_tokens,
         max_iterations=config.agents.defaults.max_tool_iterations,
         memory_window=config.agents.defaults.memory_window,
-        max_tool_iterations=config.agents.defaults.max_tool_iterations,
         web_config=config.tools.web,
         exec_config=config.tools.exec,
         cron_service=cron,
